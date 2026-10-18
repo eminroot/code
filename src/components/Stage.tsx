@@ -134,7 +134,7 @@ export const Stage = forwardRef<StageHandle, Props>(function Stage(
       {showLoader && loading && (
         <View style={styles.loader} pointerEvents="none">
           <ActivityIndicator color={color.muted} />
-          <Text style={styles.loaderText}>{failed ? 'Could not load the scene' : 'Setting the scene'}</Text>
+          <Text style={styles.loaderText}>{failed ? 'Could not load the scene' : 'Loading scene'}</Text>
         </View>
       )}
     </View>

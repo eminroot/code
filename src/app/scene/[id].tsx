@@ -148,18 +148,17 @@ export default function ScenePlayer() {
             </Card>
           ) : null}
 
-          <Card tone={color.yellowSoft} style={{ marginTop: 14, borderColor: '#FFE38A' }}>
-            <T style={[styles.cardLabel, { color: color.yellowDark }]}>WHY IT MATTERS</T>
-            <T v="body" style={{ marginTop: 6, color: color.ink }}>{story ?? scene.why}</T>
+          <View style={styles.why}>
+            <T v="body" style={{ color: color.ink }}>{story ?? scene.why}</T>
             {story ? null : busy ? (
-              <View style={styles.busy}><ActivityIndicator color={color.yellowDark} /><T v="small">Writing your story</T></View>
+              <View style={styles.busy}><ActivityIndicator color={color.muted} /><T v="small">Loading</T></View>
             ) : (
-              <Button small outline title="Tell me the story" tone={color.yellowDark} onPress={tell} style={{ marginTop: 12 }} />
+              <Button small outline title="Why do people do this?" tone={color.blue} onPress={tell} style={{ marginTop: 12 }} />
             )}
-          </Card>
+          </View>
 
           <Tap onPress={() => router.push({ pathname: '/(tabs)/coach', params: { ask: `About "${scene.title}": ` } })} style={styles.coachLink}>
-            <T v="bodyStrong" style={{ flex: 1, color: color.green }}>Ask the coach about this moment</T>
+            <T v="bodyStrong" style={{ flex: 1, color: color.green }}>Ask the coach about this</T>
             <T style={{ fontSize: 20, color: color.green, fontFamily: font.heavy }}>›</T>
           </Tap>
         </View>
@@ -209,6 +208,7 @@ const styles = StyleSheet.create({
   sayLocal: { fontFamily: font.black, fontSize: 26, lineHeight: 34, color: color.ink, marginTop: 4 },
   sayRoman: { fontFamily: font.bold, fontSize: 15, color: color.blueDark },
   speak: { width: 58, height: 58, borderRadius: 29, backgroundColor: color.blue, borderBottomWidth: 5, borderColor: color.blueDark, alignItems: 'center', justifyContent: 'center' },
+  why: { marginTop: 18, paddingTop: 16, borderTopWidth: 2, borderTopColor: color.line },
   busy: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 },
   coachLink: { flexDirection: 'row', alignItems: 'center', marginTop: 16, padding: 16, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 4, borderColor: color.line },
   foot: { paddingHorizontal: 16, paddingTop: 12, borderTopWidth: 2, borderTopColor: color.line, backgroundColor: color.white },

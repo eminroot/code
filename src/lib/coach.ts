@@ -26,12 +26,14 @@ export function coachSystem(trip: Trip, guide: Guide) {
   const from = byCode(trip.from)?.name ?? trip.from;
   const to = byCode(trip.to)?.name ?? trip.to;
   const scenes = guide.scenes.map((s) => `${s.id}: ${s.title} (${s.sub})`).join('\n');
-  return `You are Adab, a warm, practical culture coach for travellers.
+  return `You are Adab, a practical culture coach for travellers.
 The user is ${trip.name}, from ${from}, spending ${trip.days} days in ${to} for ${PURPOSE[trip.purpose]}.
 Help them handle real social situations in ${to}: greetings, food, gifts, homes, work, religion, gestures, and recovering from mistakes.
 
 How to answer:
-- Talk like a well-travelled local friend. Plain words, short paragraphs, no headings, no lists, no markdown, no em dashes.
+- Write like a friend who lives there. Plain words, short sentences, short paragraphs. No headings, lists, markdown or dashes.
+- Start with the answer. No greetings, no praise for the question, no summary at the end.
+- Avoid stock phrases such as "great question", "it's important to", "navigate", "nuance", "rich culture" or "journey".
 - Stay under 130 words unless they ask for more detail.
 - Give one concrete thing to do or say. Include the local phrase with its pronunciation when it helps.
 - Compare with habits in ${from} when that makes the difference clearer.
@@ -72,7 +74,7 @@ export async function explain(trip: Trip, guide: Guide, item: { title: string; s
   const to = byCode(trip.to)?.name ?? trip.to;
   if (hasModel()) {
     try {
-      const system = `You explain customs to travellers in a warm, story-like way. Write 90 to 140 words about why people in ${to} do this, where it comes from, and how it may feel to someone from ${from}. Two short paragraphs of plain prose. No markdown, no lists, no em dashes. Finish with one practical tip for ${trip.name}.`;
+      const system = `You explain customs to travellers. Write 70 to 120 words on why people in ${to} do this, where it comes from, and how it may feel to someone from ${from}. Two short paragraphs, plain words, short sentences. Start with the reason, not an introduction. No markdown, lists or dashes. No stock phrases such as "rich history", "deeply rooted", "navigate" or "nuance". End with one practical tip.`;
       const raw = await complete(system, [{ role: 'user', text: `Custom: ${item.title}${item.sub ? `. ${item.sub}` : ''}.\nNotes: ${item.body}` }]);
       if (raw) return tidy(raw);
     } catch (e) {
@@ -139,15 +141,26 @@ function offlineCoach(trip: Trip, guide: Guide, question: string): CoachReply {
   }
   scenes = [...new Set(scenes)].slice(0, 2);
 
+  // Making amends is the same everywhere, but the word for sorry is not.
+  if (['offend', 'offended', 'apologise', 'apologize', 'mistake', 'sorry', 'upset'].some((w) => qs.has(w))) {
+    const sorry = guide.phrases.find((p) => /sorry/i.test(p.en));
+    const same = sorry && sorry.local.toLowerCase().includes(sorry.en.toLowerCase());
+    const line = !sorry ? '' : same ? `Say "${sorry.local}". ` : `Say "${sorry.local}"${sorry.roman ? ` (${sorry.roman})` : ''}, which means ${sorry.en.toLowerCase()}. `;
+    return {
+      text: `Apologise soon and keep it short. ${line}Do not explain at length or argue about whether it was rude. A small kind act later helps more than a long speech.`,
+      scenes: [],
+    };
+  }
+
   if (!ranked.length) {
     const starters = guide.rules.filter((r) => r.phase === 'day1').slice(0, 2);
     return {
-      text: `I do not have a clear answer for that one yet. Two things that matter most in your first days in ${country}:\n\n${starters.map((r) => `${r.title}. ${r.body}`).join('\n\n')}\n\nTry asking about greetings, food, gifts, visiting a home, tipping or gestures.`,
+      text: `I have nothing saved on that. Two things to know for your first days in ${country}:\n\n${starters.map((r) => `${r.title}. ${r.body}`).join('\n\n')}\n\nYou can ask about greetings, food, gifts, visiting a home, tipping or gestures.`,
       scenes: guide.scenes.slice(0, 1).map((s) => s.id),
     };
   }
 
-  let text = `Here is what matters for that in ${country}.\n\n${ranked.map((r) => `${r.title}. ${r.body}`).join('\n\n')}`;
+  let text = `${ranked.map((r) => `${r.title}. ${r.body}`).join('\n\n')}`;
   if (from) {
     const extra = originNotes(from, byCode(trip.to)!).find((n) => (topics.has('money') && /tip/i.test(n)) || (topics.has('home') && /shoe/i.test(n)) || (topics.has('dining') && /hand/i.test(n)));
     if (extra) text += `\n\nComing from ${from.name}: ${extra}`;

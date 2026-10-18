@@ -74,7 +74,7 @@ export const PHASES: { key: Phase; label: string; hint: string }[] = [
   { key: 'before', label: 'Before you land', hint: 'Pack and plan' },
   { key: 'day1', label: 'Your first day', hint: 'Greetings and getting around' },
   { key: 'week', label: 'Your first week', hint: 'Meals, homes and gifts' },
-  { key: 'long', label: 'Living like a local', hint: 'Work, friends and nuance' },
+  { key: 'long', label: 'Staying longer', hint: 'Work, friends and daily life' },
 ];
 
 export function phasesFor(days: number): Phase[] {

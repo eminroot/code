@@ -54,20 +54,20 @@ export default function Coach() {
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: color.bg }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <TopBar />
       <ScrollView ref={scroll} style={{ flex: 1 }} contentContainerStyle={{ padding: 16, paddingBottom: 20 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
-        <View style={[styles.hero, { backgroundColor: color.green, borderColor: color.greenDark }]}>
-          <Image source={coachFace} style={styles.heroFace} />
+        <View style={styles.head}>
+          <Image source={coachFace} style={styles.headFace} />
           <View style={{ flex: 1 }}>
-            <T style={styles.heroLabel}>Your coach for {to.name}</T>
-            <T style={styles.heroTitle}>{chat.length ? 'Ask me anything' : `What is happening, ${trip.name.split(' ')[0]}?`}</T>
+            <T v="h2">Coach</T>
+            <T v="small">Questions about {to.name}</T>
           </View>
           {chat.length ? (
-            <Tap onPress={() => setChat(() => [])} style={styles.newChat}><T style={styles.newChatT}>NEW</T></Tap>
+            <Tap onPress={() => setChat(() => [])} style={styles.newChat}><T style={styles.newChatT}>Clear</T></Tap>
           ) : null}
         </View>
 
         {chat.length === 0 ? (
           <View style={{ marginTop: 18 }}>
-            <T v="body" style={{ marginBottom: 12 }}>Describe the moment. You will get what to do, what to say, and a scene to watch.</T>
+            <T v="body" style={{ marginBottom: 12 }}>Tap a question or type your own.</T>
             {starterPrompts(trip, guide).map((p) => (
               <Tap key={p} onPress={() => send(p)} style={styles.option}>
                 <T v="bodyStrong" style={{ flex: 1 }}>{p}</T>
@@ -103,7 +103,7 @@ export default function Coach() {
         {busy ? (
           <View style={styles.coachRow}>
             <Image source={coachFace} style={styles.face} />
-            <View style={[styles.coachMsg, { flexDirection: 'row', alignItems: 'center', gap: 10 }]}><ActivityIndicator color={color.green} /><T v="small">Thinking about {to.name}</T></View>
+            <View style={[styles.coachMsg, { flexDirection: 'row', alignItems: 'center', gap: 10 }]}><ActivityIndicator color={color.green} /><T v="small">Typing</T></View>
           </View>
         ) : null}
       </ScrollView>
@@ -129,12 +129,10 @@ export default function Coach() {
 }
 
 const styles = StyleSheet.create({
-  hero: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: radius.xl, padding: 16, borderBottomWidth: 6 },
-  heroFace: { width: 56, height: 56, borderRadius: 28, borderWidth: 3, borderColor: color.white, backgroundColor: color.greenSoft },
-  heroLabel: { fontFamily: font.heavy, fontSize: 12.5, letterSpacing: 0.8, textTransform: 'uppercase', color: 'rgba(255,255,255,0.88)' },
-  heroTitle: { fontFamily: font.black, fontSize: 20, lineHeight: 25, color: color.white, marginTop: 1 },
-  newChat: { paddingHorizontal: 12, height: 34, borderRadius: 12, justifyContent: 'center', backgroundColor: color.white },
-  newChatT: { fontFamily: font.heavy, fontSize: 13, color: color.green, letterSpacing: 0.6 },
+  head: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  headFace: { width: 48, height: 48, borderRadius: 24, backgroundColor: color.greenSoft },
+  newChat: { paddingHorizontal: 12, height: 34, borderRadius: 12, justifyContent: 'center', borderWidth: 2, borderColor: color.line },
+  newChatT: { fontFamily: font.heavy, fontSize: 14, color: color.muted },
   option: { padding: 16, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 4, borderColor: color.line, backgroundColor: color.white, marginBottom: 10 },
   me: { alignSelf: 'flex-end', maxWidth: '84%', backgroundColor: color.blue, borderRadius: 20, borderBottomRightRadius: 6, paddingHorizontal: 16, paddingVertical: 11, marginTop: 16, borderBottomWidth: 4, borderBottomColor: color.blueDark },
   meT: { fontFamily: font.bold, fontSize: 15.5, lineHeight: 21, color: color.white },

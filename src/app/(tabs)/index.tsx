@@ -11,10 +11,10 @@ import { useTrip } from '@/lib/useTrip';
 import { color, font, onColor, radius, shade, tint } from '@/theme';
 
 const UNITS: { cat: SceneCat; color: string; title: string; sub: (c: string) => string }[] = [
-  { cat: 'greet', color: color.green, title: 'Saying hello', sub: (c) => `Greet people the way they do in ${c}` },
-  { cat: 'gesture', color: color.purple, title: 'Hands and gestures', sub: () => 'What your hands are really saying' },
-  { cat: 'home', color: color.orange, title: 'Homes and gifts', sub: () => 'Visiting, giving and receiving' },
-  { cat: 'business', color: color.blue, title: 'Doing business', sub: () => 'Meetings and first impressions' },
+  { cat: 'greet', color: color.green, title: 'Saying hello', sub: (c) => `How people say hello in ${c}` },
+  { cat: 'gesture', color: color.purple, title: 'Hands and gestures', sub: () => 'Pointing, waving and calling people over' },
+  { cat: 'home', color: color.orange, title: 'Homes and gifts', sub: () => 'Visiting a home and giving gifts' },
+  { cat: 'business', color: color.blue, title: 'Doing business', sub: () => 'Meetings, cards and names' },
   { cat: 'out', color: color.red, title: 'Out and about', sub: () => 'Streets, shops and trains' },
 ];
 // Nodes swing away from the side where the local person stands.
@@ -45,9 +45,9 @@ export default function Learn() {
       <TopBar />
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
         <View style={[styles.hello, { backgroundColor: greetTone, borderColor: shade(greetTone) }]}>
-          <T style={[styles.helloSmall, { color: onColor(greetTone) }]}>{guide.hello.roman ? guide.hello.local : 'Say it like a local'}</T>
+          <T style={[styles.helloSmall, { color: onColor(greetTone) }]}>{guide.hello.roman ? guide.hello.local : `Hello in ${to.name}`}</T>
           <T style={[styles.helloBig, { color: onColor(greetTone) }]}>{guide.hello.roman ?? guide.hello.local}, {trip.name.split(' ')[0]}!</T>
-          <T style={[styles.helloSub, { color: onColor(greetTone) }]}>{done === all.length ? `You know the ${to.name} basics. Brilliant.` : `${all.length - done} scenes left before you land in ${to.name}.`}</T>
+          <T style={[styles.helloSub, { color: onColor(greetTone) }]}>{done === all.length ? `All ${all.length} scenes done.` : `${all.length - done} ${all.length - done === 1 ? 'scene' : 'scenes'} to go.`}</T>
           <View style={{ marginTop: 14 }}>
             <Bar value={done / Math.max(1, all.length)} tone={color.yellow} track="rgba(255,255,255,0.35)" height={14} />
           </View>
@@ -116,8 +116,8 @@ export default function Learn() {
               <Trophy size={44} />
             </View>
           </View>
-          <T v="h3" style={{ marginTop: 12 }}>{done === all.length ? 'Ready for the real thing' : 'Finish every scene'}</T>
-          <T v="small" style={{ marginTop: 4, textAlign: 'center', paddingHorizontal: 40 }}>Then practise what to say in Talk, or ask your coach about any situation.</T>
+          <T v="h3" style={{ marginTop: 12 }}>{done === all.length ? 'All scenes done' : 'Finish every scene'}</T>
+          <T v="small" style={{ marginTop: 4, textAlign: 'center', paddingHorizontal: 40 }}>Then learn the phrases in Talk.</T>
           <View style={{ flexDirection: 'row', gap: 10, marginTop: 16, paddingHorizontal: 22, alignSelf: 'stretch' }}>
             <Button title="Talk" tone={color.purple} onPress={() => router.push('/(tabs)/talk')} style={{ flex: 1 }} />
             <Button title="Coach" tone={color.green} onPress={() => router.push('/(tabs)/coach')} style={{ flex: 1 }} />

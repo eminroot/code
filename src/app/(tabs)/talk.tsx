@@ -7,7 +7,7 @@ import { PORTRAITS } from '@/data/images';
 import type { Phrase } from '@/data/types';
 import { say } from '@/lib/speech';
 import { useTrip } from '@/lib/useTrip';
-import { color, font, radius, shade } from '@/theme';
+import { color, font, shade } from '@/theme';
 
 const LANG: Record<string, string> = {
   'ja-JP': 'Japanese', 'ko-KR': 'Korean', 'zh-CN': 'Mandarin', 'th-TH': 'Thai', 'hi-IN': 'Hindi', 'ar-AE': 'Arabic', 'tr-TR': 'Turkish',
@@ -62,14 +62,13 @@ export default function Talk() {
     <View style={{ flex: 1, backgroundColor: color.bg }}>
       <TopBar />
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
-        <View style={[styles.hero, { backgroundColor: color.purple, borderColor: color.purpleDark }]}>
-          <T style={styles.heroLabel}>{LANG[guide.lang] ?? to.name}</T>
-          <T style={styles.heroTitle}>Talk like you belong</T>
-          <T style={styles.heroSub}>What to say, what to ask and what to skip in {to.name}.</T>
+        <View style={styles.head}>
+          <T v="h1">{LANG[guide.lang] ?? to.name}</T>
+          <T v="body" style={{ color: color.muted, marginTop: 2 }}>What to say in {to.name}, and what to leave out.</T>
         </View>
 
         <View style={styles.pad}>
-          <Header title="Break the ice" sub="Openers that work with people you just met" tone={color.green} />
+          <Header title="First lines" sub="For someone you just met" tone={color.green} />
           {talk.starters.map((s, i) => (
             <Card key={i} style={{ marginBottom: 12 }}>
               <View style={styles.row}>
@@ -80,14 +79,11 @@ export default function Talk() {
                 </View>
                 {s.local ? <SpeakBtn on={playing === s.local} onPress={() => play({ local: s.local!, roman: s.roman })} /> : null}
               </View>
-              <View style={styles.why}>
-                <T style={styles.whyLabel}>WHY IT WORKS</T>
-                <T v="small" style={{ color: color.inkSoft, marginTop: 2 }}>{s.why}</T>
-              </View>
+              <T v="small" style={styles.why}>{s.why}</T>
             </Card>
           ))}
 
-          <Header title="Great topics" sub="Safe ground for longer conversations" tone={color.blue} />
+          <Header title="Good topics" sub="Easy to talk about for a while" tone={color.blue} />
           <View style={styles.chips}>
             {talk.topics.map((t, i) => {
               const [bg, fg] = CHIP_TONES[i % CHIP_TONES.length];
@@ -95,7 +91,7 @@ export default function Talk() {
             })}
           </View>
 
-          <Header title="Steer clear of" sub="Topics that can sour a good moment" tone={color.red} />
+          <Header title="Topics to avoid" sub="Wait until the other person brings them up" tone={color.red} />
           {talk.avoid.map((a) => (
             <Card key={a.topic} tone={color.redSoft} style={{ marginBottom: 10, borderColor: '#FFB2B2' }}>
               <T style={styles.avoidTitle}>{a.topic}</T>
@@ -103,7 +99,7 @@ export default function Talk() {
             </Card>
           ))}
 
-          <Header title="Questions you will hear" sub="And an easy way to answer" tone={color.orange} />
+          <Header title="Questions people ask" sub="With a short reply you can use" tone={color.orange} />
           {talk.asked.map((q, i) => (
             <View key={i} style={{ marginBottom: 16 }}>
               <View style={styles.chatRow}>
@@ -118,7 +114,7 @@ export default function Talk() {
             </View>
           ))}
 
-          <Header title="Compliments that land" sub="Warm words people love to hear" tone={color.yellow} />
+          <Header title="Compliments" sub="Things people are glad to hear" tone={color.yellow} />
           {talk.compliments.map((c, i) => (
             <Card key={i} tone={color.yellowSoft} style={[styles.row, { marginBottom: 10, borderColor: '#FFE38A' }]}>
               <View style={{ flex: 1 }}>
@@ -161,18 +157,14 @@ export default function Talk() {
 
 const styles = StyleSheet.create({
   pad: { paddingHorizontal: 16 },
-  hero: { marginHorizontal: 16, marginTop: 16, borderRadius: radius.xl, padding: 20, borderBottomWidth: 6 },
-  heroLabel: { fontFamily: font.heavy, fontSize: 13, letterSpacing: 1, textTransform: 'uppercase', color: 'rgba(255,255,255,0.88)' },
-  heroTitle: { fontFamily: font.black, fontSize: 30, lineHeight: 34, color: color.white, marginTop: 2 },
-  heroSub: { fontFamily: font.bold, fontSize: 15, color: 'rgba(255,255,255,0.95)', marginTop: 4 },
+  head: { paddingHorizontal: 16, paddingTop: 20 },
   secHead: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 28, marginBottom: 12 },
   secBar: { width: 6, alignSelf: 'stretch', borderRadius: 3 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   quote: { fontFamily: font.heavy, fontSize: 18, lineHeight: 24, color: color.ink },
   local: { fontFamily: font.heavy, fontSize: 19, lineHeight: 26, marginTop: 6 },
   roman: { fontFamily: font.bold, fontSize: 14, color: color.muted, fontStyle: 'italic' },
-  why: { marginTop: 12, paddingTop: 10, borderTopWidth: 2, borderTopColor: color.line },
-  whyLabel: { fontFamily: font.heavy, fontSize: 11, letterSpacing: 0.8, color: color.green },
+  why: { marginTop: 10, color: color.inkSoft },
   speak: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 4 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: { paddingHorizontal: 14, paddingVertical: 9, borderRadius: 14 },

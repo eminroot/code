@@ -51,7 +51,7 @@ export default function Brief() {
       <TopBar />
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
         <View style={[styles.hero, { backgroundColor: tone, borderColor: shade(tone) }]}>
-          <T style={[styles.heroLabel, { color: ink }]}>Your briefing</T>
+          <T style={[styles.heroLabel, { color: ink }]}>Your trip</T>
           <T style={[styles.heroTitle, { color: ink }]}>{to.name}</T>
           <T style={[styles.heroTag, { color: ink }]}>{guide.tagline}</T>
           <View style={styles.chips}>
@@ -113,7 +113,7 @@ export default function Brief() {
             );
           })}
 
-          <T v="h2" style={{ marginTop: 30 }}>The essentials</T>
+          <T v="h2" style={{ marginTop: 30 }}>Quick facts</T>
           <View style={styles.facts}>
             {guide.facts.map((f, i) => (
               <View key={f.label} style={[styles.fact, { backgroundColor: FACT_TONES[i % 6] }]}>
@@ -122,12 +122,6 @@ export default function Brief() {
               </View>
             ))}
           </View>
-
-          <Card tone={color.greenSoft} style={{ marginTop: 26, borderColor: '#A5ED6E' }}>
-            <T v="h3">Stuck in a moment?</T>
-            <T v="body" style={{ marginTop: 4 }}>Describe what is happening and your coach tells you what to do and say.</T>
-            <Button title="Ask the coach" tone={color.green} onPress={() => router.push('/(tabs)/coach')} style={{ marginTop: 14 }} />
-          </Card>
         </View>
       </ScrollView>
       <RuleSheet rule={open} guide={guide} trip={trip} onClose={() => setOpen(null)} />

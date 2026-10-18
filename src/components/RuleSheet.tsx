@@ -41,7 +41,7 @@ export function RuleSheet({ rule, guide, trip, onClose }: { rule: Rule | null; g
               <Card onPress={() => { onClose(); router.push({ pathname: '/scene/[id]', params: { id: scene.id } }); }} tone={color.blueSoft} style={[styles.scene, { borderColor: '#84D8FF' }]}>
                 <Image source={THUMBS[scene.id]} style={styles.thumb} />
                 <View style={{ flex: 1 }}>
-                  <T style={styles.label}>WATCH IT</T>
+                  <T style={styles.label}>WATCH</T>
                   <T v="title" style={{ marginTop: 2 }}>{scene.title}</T>
                   <T v="small" numberOfLines={1}>{scene.sub}</T>
                 </View>
@@ -49,16 +49,15 @@ export function RuleSheet({ rule, guide, trip, onClose }: { rule: Rule | null; g
               </Card>
             ) : null}
 
-            <Card tone={color.yellowSoft} style={{ marginTop: 14, borderColor: '#FFE38A' }}>
-              <T style={[styles.label, { color: color.yellowDark }]}>THE STORY BEHIND IT</T>
+            <View style={{ marginTop: 16, marginBottom: 24 }}>
               {story ? (
-                <T v="body" style={{ marginTop: 6, color: color.ink }}>{story}</T>
+                <T v="body" style={{ color: color.ink }}>{story}</T>
               ) : busy ? (
-                <View style={styles.busy}><ActivityIndicator color={color.yellowDark} /><T v="small">Thinking it through</T></View>
+                <View style={styles.busy}><ActivityIndicator color={color.muted} /><T v="small">Loading</T></View>
               ) : (
-                <Button small outline title="Why do people do this?" tone={color.yellowDark} onPress={tell} style={{ marginTop: 10 }} />
+                <Button small outline title="Why do people do this?" tone={color.blue} onPress={tell} />
               )}
-            </Card>
+            </View>
           </ScrollView>
         ) : null}
       </View>

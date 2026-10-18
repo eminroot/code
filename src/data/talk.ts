@@ -204,7 +204,7 @@ export const TALK: Record<string, Talk> = {
   },
   GE: {
     starters: [
-      { say: 'To victory! (cheers)', local: 'გაუმარჯოს!', roman: 'Gaumarjos!', why: 'Toasts are the heart of Georgian gatherings.' },
+      { say: 'To victory! (cheers)', local: 'გაუმარჯოს!', roman: 'Gaumarjos!', why: 'Georgian dinners are built around toasts.' },
       { say: 'Which wine should I try?', why: 'Georgia has made wine for 8000 years. Ask about qvevri wine.' },
       { say: 'Khachapuri or khinkali?', why: 'A playful food debate everyone joins.' },
       { say: 'Which region should I visit?', why: 'Kazbegi, Svaneti, Kakheti: people love to recommend their mountains.' },

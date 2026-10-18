@@ -57,7 +57,7 @@ export default function Welcome() {
 
       <View style={[styles.bottom, { paddingBottom: insets.bottom + 16 }]}>
         <T style={[styles.headline, height < 700 && { fontSize: 28, lineHeight: 32 }]}>Every country has its own hello.</T>
-        <T v="body" style={styles.lede}>Watch real people greet, give and say no in 3D. Learn what to say, then ask your coach when a moment gets tricky.</T>
+        <T v="body" style={styles.lede}>See how people greet, give gifts and say no in 15 countries. Learn the words, then ask the coach when you get stuck.</T>
         <Button title="Get started" onPress={() => router.push('/onboarding')} style={{ marginTop: 20 }} />
         <T v="small" style={styles.fine}>No account needed. Takes about a minute.</T>
       </View>

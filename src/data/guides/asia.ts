@@ -6,7 +6,7 @@ export const JP: GuideSource = {
   code: 'JP',
   lang: 'ja-JP',
   hello: { local: 'こんにちは', roman: 'Konnichiwa' },
-  tagline: 'Quiet courtesy. Read the room.',
+  tagline: 'Bow, keep your voice low, and never tip.',
   intro: 'Japan runs on small courtesies: a bow, a lowered voice, a queue that forms by itself. Nobody expects a visitor to be perfect, but effort is noticed.',
   avatars: { m: 'eastasia_m', f: 'eastasia_f' },
   facts: [
@@ -33,7 +33,7 @@ export const JP: GuideSource = {
     r('jp-gift', 'week', 'do', 'gifts', 'Bring a small gift to a home', 'Something from your country, nicely wrapped, offered with both hands.', 'jp-gift'),
     r('jp-meishi', 'long', 'do', 'business', 'Treat business cards with care', 'Receive with both hands, read it, keep it on the table during the meeting. Never write on it or pocket it at once.', 'jp-card'),
     r('jp-no', 'long', 'know', 'talk', 'Listen for the soft no', 'It is a little difficult usually means no. Pushing for a clear answer causes embarrassment.'),
-    r('jp-rank', 'long', 'know', 'business', 'Seniority shapes the room', 'Senior people sit furthest from the door and speak first. Follow their lead.'),
+    r('jp-rank', 'long', 'know', 'business', 'Let the most senior person lead', 'Senior people sit furthest from the door and speak first. Follow their lead.'),
     r('jp-san', 'long', 'do', 'talk', 'Add san after surnames', 'Tanaka-san, not just Tanaka. Never add it to your own name.'),
   ],
   phrases: [
@@ -105,7 +105,7 @@ export const KR: GuideSource = {
   code: 'KR',
   lang: 'ko-KR',
   hello: { local: '안녕하세요', roman: 'Annyeonghaseyo' },
-  tagline: 'Respect flows with age.',
+  tagline: 'Age decides who bows first and who pours.',
   intro: 'In Korea, age and seniority shape how people greet, eat and drink together. A bow, two hands and a little patience go a long way.',
   avatars: { m: 'eastasia_m', f: 'eastasia_f' },
   facts: [
@@ -129,7 +129,7 @@ export const KR: GuideSource = {
     r('kr-sticks', 'week', 'avoid', 'dining', 'Chopsticks standing in rice', 'It recalls rites for the dead.'),
     r('kr-hands', 'week', 'do', 'gifts', 'Give and receive with both hands', 'Or with the right hand while the left touches your right wrist.', 'kr-gift'),
     r('kr-titles', 'long', 'know', 'talk', 'Ages and titles matter', 'Koreans use titles like seonbae for seniors. Ask how someone would like to be addressed.'),
-    r('kr-hoesik', 'long', 'know', 'business', 'Work dinners build teams', 'After-work meals and drinks are part of office life. Join the first round at least.'),
+    r('kr-hoesik', 'long', 'know', 'business', 'Go to work dinners', 'After-work meals and drinks are part of office life. Join the first round at least.'),
     r('kr-nunchi', 'long', 'know', 'talk', 'Nunchi', 'The skill of reading the mood. Notice how people react before you speak up.'),
   ],
   phrases: [
@@ -180,7 +180,7 @@ export const CN: GuideSource = {
   code: 'CN',
   lang: 'zh-CN',
   hello: { local: '你好', roman: 'Nǐ hǎo' },
-  tagline: 'Face, family and a full table.',
+  tagline: 'Meals are shared, and the host pays.',
   intro: 'Chinese etiquette centres on face: helping others keep their dignity in public. Hospitality is generous, and refusing politely is part of the dance.',
   avatars: { m: 'eastasia_m', f: 'eastasia_f' },
   facts: [
@@ -256,7 +256,7 @@ export const TH: GuideSource = {
   code: 'TH',
   lang: 'th-TH',
   hello: { local: 'สวัสดี', roman: 'Sawasdee' },
-  tagline: 'Cool heart, warm smile.',
+  tagline: 'Stay calm, smile, and never touch a head.',
   intro: 'Thais value jai yen, a cool heart. Losing your temper loses respect. The head is sacred, the feet are lowly, and the royal family is never a joke.',
   avatars: { m: 'eastasia_m', f: 'eastasia_f' },
   facts: [
@@ -332,7 +332,7 @@ export const IN: GuideSource = {
   code: 'IN',
   lang: 'hi-IN',
   hello: { local: 'नमस्ते', roman: 'Namaste' },
-  tagline: 'Warm, loud and generous.',
+  tagline: 'Use your right hand and expect second helpings.',
   intro: 'India is many cultures in one country, but some habits hold almost everywhere: namaste, the right hand, and hospitality that is hard to refuse.',
   avatars: { m: 'south_m', f: 'south_f' },
   facts: [
@@ -361,6 +361,7 @@ export const IN: GuideSource = {
   phrases: [
     { en: 'Hello', local: 'नमस्ते', roman: 'Namaste', cat: 'greet' },
     { en: 'Thank you', local: 'धन्यवाद', roman: 'Dhanyavaad', cat: 'polite' },
+    { en: 'Sorry', local: 'माफ़ कीजिए', roman: 'Maaf kijiye', cat: 'polite' },
     { en: 'Please', local: 'कृपया', roman: 'Kripya', cat: 'polite' },
     { en: 'Yes / No', local: 'हाँ / नहीं', roman: 'Haan / Nahin', cat: 'polite' },
     { en: 'Very tasty', local: 'बहुत स्वादिष्ट', roman: 'Bahut swadisht', cat: 'dining' },
