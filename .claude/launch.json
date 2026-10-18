@@ -1,0 +1,43 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "stage-dev",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--bind",
+        "127.0.0.1"
+      ],
+      "port": 8765
+    },
+    {
+      "name": "stage-saver",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "stage/pipeline/saver.mjs",
+        ".",
+        "8766"
+      ],
+      "port": 8766
+    },
+    {
+      "name": "expo-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "expo",
+        "start",
+        "--web",
+        "--port",
+        "8082",
+        "--clear"
+      ],
+      "port": 8082,
+      "env": {
+        "BROWSER": "none"
+      }
+    }
+  ]
+}
