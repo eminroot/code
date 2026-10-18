@@ -29,7 +29,7 @@ export const JP: GuideSource = {
     r('jp-itadakimasu', 'week', 'do', 'dining', 'Say itadakimasu before eating', 'It means I humbly receive. Gochisousama deshita after the meal thanks the host or the cook.'),
     r('jp-slurp', 'week', 'know', 'dining', 'Slurp your noodles', 'Slurping ramen and soba is normal and shows you are enjoying it.'),
     r('jp-full', 'week', 'know', 'dining', 'Saying no to more food', 'Finishing your plate is polite here. To decline a refill, say onaka ippai desu, I am full, with a small bow of the head.'),
-    r('jp-pass', 'week', 'avoid', 'dining', 'Passing food from chopstick to chopstick', 'Another funeral custom. Put the food on a plate instead.'),
+    r('jp-pass', 'week', 'avoid', 'dining', 'Passing food from chopstick to chopstick', 'It echoes a funeral rite. Put the food on their plate instead.'),
     r('jp-gift', 'week', 'do', 'gifts', 'Bring a small gift to a home', 'Something from your country, nicely wrapped, offered with both hands.', 'jp-gift'),
     r('jp-meishi', 'long', 'do', 'business', 'Treat business cards with care', 'Receive with both hands, read it, keep it on the table during the meeting. Never write on it or pocket it at once.', 'jp-card'),
     r('jp-no', 'long', 'know', 'talk', 'Listen for the soft no', 'It is a little difficult usually means no. Pushing for a clear answer causes embarrassment.'),
@@ -39,7 +39,7 @@ export const JP: GuideSource = {
   phrases: [
     { en: 'Hello', local: 'こんにちは', roman: 'Konnichiwa', cat: 'greet' },
     { en: 'Nice to meet you', local: 'はじめまして', roman: 'Hajimemashite', cat: 'greet' },
-    { en: 'Thank you very much', local: 'ありがとうございます', roman: 'Arigatou gozaimasu', cat: 'polite' },
+    { en: 'Thank you very much', local: 'ありがとうございます', roman: 'Arigatō gozaimasu', cat: 'polite' },
     { en: 'Excuse me, sorry', local: 'すみません', roman: 'Sumimasen', note: 'Calls a waiter, apologises, thanks. The most useful word you will learn.', cat: 'polite' },
     { en: 'Please, go ahead', local: 'どうぞ', roman: 'Douzo', cat: 'polite' },
     { en: 'Before eating', local: 'いただきます', roman: 'Itadakimasu', cat: 'dining' },

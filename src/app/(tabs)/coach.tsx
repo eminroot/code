@@ -28,7 +28,10 @@ export default function Coach() {
   useEffect(() => {
     if (ask) { setText(ask); setTimeout(() => input.current?.focus(), 300); }
   }, [ask]);
-  useEffect(() => { setTimeout(() => scroll.current?.scrollToEnd({ animated: true }), 80); }, [chat.length, busy]);
+  useEffect(() => {
+    if (!chat.length && !busy) return;
+    setTimeout(() => scroll.current?.scrollToEnd({ animated: true }), 80);
+  }, [chat.length, busy]);
 
   if (!ctx) return null;
   const { trip, guide, to } = ctx;
@@ -114,6 +117,7 @@ export default function Coach() {
           placeholderTextColor={color.faint}
           style={styles.input}
           multiline
+          numberOfLines={1}
           maxLength={600}
         />
         <Tap onPress={() => send()} disabled={!text.trim() || busy} style={[styles.send, (!text.trim() || busy) && { backgroundColor: color.line, borderColor: '#D0D0D0' }]}>

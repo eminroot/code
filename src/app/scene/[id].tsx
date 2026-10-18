@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.bg },
   top: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingBottom: 10, backgroundColor: color.white },
   iconBtn: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center' },
-  avoidPill: { position: 'absolute', top: 12, alignSelf: 'center', backgroundColor: color.red, paddingHorizontal: 14, height: 30, borderRadius: 12, justifyContent: 'center', borderBottomWidth: 3, borderBottomColor: color.redDark },
+  avoidPill: { position: 'absolute', bottom: 54, alignSelf: 'center', backgroundColor: color.red, paddingHorizontal: 14, height: 30, borderRadius: 12, justifyContent: 'center', borderBottomWidth: 3, borderBottomColor: color.redDark },
   avoidPillT: { fontFamily: font.heavy, fontSize: 12.5, color: color.white, letterSpacing: 0.8 },
   camRow: { position: 'absolute', left: 0, right: 0, bottom: 12, flexDirection: 'row', justifyContent: 'center', gap: 6 },
   cam: { paddingHorizontal: 12, height: 32, borderRadius: 12, justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.9)', borderWidth: 2, borderColor: color.line },
