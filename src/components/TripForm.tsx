@@ -8,6 +8,7 @@ import { COUNTRIES, byCode } from '@/data/countries';
 import { GUIDES } from '@/data/guides';
 import { PORTRAITS } from '@/data/images';
 import type { Purpose, Trip } from '@/data/types';
+import { addDays, dayKey, daysBetween, shortDate } from '@/lib/journey';
 import { color, font, onColor, radius, shade } from '@/theme';
 
 const STAY = [
@@ -23,7 +24,14 @@ const PURPOSE: { k: Purpose; t: string; s: string; tone: string }[] = [
   { k: 'study', t: 'Study', s: 'Campus and new friends', tone: color.purple },
   { k: 'family', t: 'Family visit', s: 'Homes and gatherings', tone: color.green },
 ];
-const QUESTIONS = ['What should I call you?', 'Where are you from?', 'Where are you headed?', 'How long are you staying?'];
+const QUESTIONS = ['What should I call you?', 'Where are you from?', 'Where are you headed?', 'When do you arrive?', 'How long are you staying?'];
+const LAST = QUESTIONS.length - 1;
+const ARRIVE = [
+  { d: 0, t: 'I am there now' },
+  { d: 1, t: 'Tomorrow' },
+  { d: 7, t: 'In a week' },
+  { d: 30, t: 'In a month' },
+];
 
 // The guide asks each question in a speech bubble.
 function Ask({ q }: { q: string }) {
@@ -49,6 +57,8 @@ export function TripForm({ initial, onDone, onClose, doneLabel = 'Build my plan'
   const [to, setTo] = useState(initial?.to ?? '');
   const [days, setDays] = useState(initial?.days ?? 7);
   const [purpose, setPurpose] = useState<Purpose>(initial?.purpose ?? 'holiday');
+  // Days from today until arrival. Negative means already there.
+  const [off, setOff] = useState(initial?.arrive ? daysBetween(dayKey(), initial.arrive) : 0);
   const [q, setQ] = useState('');
   const anim = useRef(new Animated.Value(1)).current;
 
@@ -57,11 +67,11 @@ export function TripForm({ initial, onDone, onClose, doneLabel = 'Build my plan'
     Animated.spring(anim, { toValue: 1, useNativeDriver: true, friction: 8 }).start();
   }, [step, anim]);
 
-  const valid = [name.trim().length > 0, !!from, !!to, days > 0][step];
+  const valid = [name.trim().length > 0, !!from, !!to, true, days > 0][step];
   const next = () => {
-    if (step < 3) { setStep(step + 1); return; }
+    if (step < LAST) { setStep(step + 1); return; }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    onDone({ name: name.trim(), avatar, from, to, days, purpose, createdAt: initial?.createdAt ?? Date.now() });
+    onDone({ name: name.trim(), avatar, from, to, days, purpose, arrive: addDays(dayKey(), off), createdAt: initial?.createdAt ?? Date.now() });
   };
   const back = () => (step > 0 ? setStep(step - 1) : onClose?.());
 
@@ -76,7 +86,7 @@ export function TripForm({ initial, onDone, onClose, doneLabel = 'Build my plan'
         <Tap onPress={back} style={styles.iconBtn} disabled={step === 0 && !onClose}>
           {step === 0 ? (onClose ? <Close size={26} color={color.faint} stroke={2.6} /> : null) : <Back size={26} color={color.faint} stroke={2.6} />}
         </Tap>
-        <View style={{ flex: 1 }}><Bar value={(step + 1) / 4} /></View>
+        <View style={{ flex: 1 }}><Bar value={(step + 1) / QUESTIONS.length} /></View>
       </View>
 
       <Animated.View style={{ flex: 1, opacity: anim, transform: [{ translateX: anim.interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) }] }}>
@@ -169,6 +179,31 @@ export function TripForm({ initial, onDone, onClose, doneLabel = 'Build my plan'
           <ScrollView contentContainerStyle={styles.body}>
             <Ask q={QUESTIONS[3]} />
             <View style={styles.daysRow}>
+              <Tap onPress={() => setOff(Math.max(-365, off - 1))} style={styles.round}><T style={styles.roundT}>−</T></Tap>
+              <View style={{ alignItems: 'center', flex: 1 }}>
+                <T style={styles.date}>{off === 0 ? 'Today' : off === 1 ? 'Tomorrow' : shortDate(addDays(dayKey(), off))}</T>
+                <T style={styles.daysLabel}>{off < 0 ? `ARRIVED ${-off} ${off === -1 ? 'DAY' : 'DAYS'} AGO` : off > 0 ? `IN ${off} ${off === 1 ? 'DAY' : 'DAYS'}` : 'ALREADY THERE'}</T>
+              </View>
+              <Tap onPress={() => setOff(Math.min(365, off + 1))} style={styles.round}><T style={styles.roundT}>+</T></Tap>
+            </View>
+            <View style={styles.chips}>
+              {ARRIVE.map((a) => {
+                const on = off === a.d;
+                return (
+                  <Tap key={a.d} onPress={() => setOff(a.d)} style={[styles.chip, on && styles.optionOn]}>
+                    <T style={[styles.chipT, on && { color: color.blueDark }]}>{a.t}</T>
+                  </Tap>
+                );
+              })}
+            </View>
+            <T v="small" style={{ marginTop: 22, textAlign: 'center' }}>We use this to check in with you during the trip.</T>
+          </ScrollView>
+        )}
+
+        {step === 4 && (
+          <ScrollView contentContainerStyle={styles.body}>
+            <Ask q={QUESTIONS[4]} />
+            <View style={styles.daysRow}>
               <Tap onPress={() => setDays(Math.max(1, days - 1))} style={styles.round}><T style={styles.roundT}>−</T></Tap>
               <View style={{ alignItems: 'center', flex: 1 }}>
                 <T style={styles.days}>{days}</T>
@@ -203,7 +238,7 @@ export function TripForm({ initial, onDone, onClose, doneLabel = 'Build my plan'
       </Animated.View>
 
       <View style={[styles.foot, { paddingBottom: insets.bottom + 12 }]}>
-        <Button title={step < 3 ? 'Continue' : doneLabel} onPress={next} disabled={!valid} />
+        <Button title={step < LAST ? 'Continue' : doneLabel} onPress={next} disabled={!valid} />
       </View>
     </KeyboardAvoidingView>
   );
@@ -240,6 +275,7 @@ const styles = StyleSheet.create({
   round: { width: 58, height: 58, borderRadius: 18, borderWidth: 2, borderBottomWidth: 5, borderColor: color.line, alignItems: 'center', justifyContent: 'center', backgroundColor: color.white },
   roundT: { fontFamily: font.black, fontSize: 28, color: color.blue, lineHeight: 32 },
   days: { fontFamily: font.black, fontSize: 80, lineHeight: 88, color: color.ink },
+  date: { fontFamily: font.black, fontSize: 34, lineHeight: 44, color: color.ink, textAlign: 'center' },
   daysLabel: { fontFamily: font.heavy, fontSize: 14, color: color.faint, letterSpacing: 1.2 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 18, justifyContent: 'center' },
   chip: { paddingHorizontal: 14, paddingVertical: 9, borderRadius: 14, borderWidth: 2, borderBottomWidth: 4, borderColor: color.line, backgroundColor: color.white },

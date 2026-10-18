@@ -44,6 +44,8 @@ function Gate({ fonts }: { fonts: boolean }) {
       <Stack.Screen name="(tabs)" options={{ animation: 'fade' }} />
       <Stack.Screen name="scene/[id]" options={{ animation: 'fade_from_bottom' }} />
       <Stack.Screen name="trip" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="checkin" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="practice" options={{ animation: 'fade_from_bottom' }} />
     </Stack>
   );
 }

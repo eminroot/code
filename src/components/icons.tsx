@@ -36,6 +36,13 @@ export const Edit = ({ size, color = '#1B1713', stroke = 1.7 }: P) => (
 export const Check = ({ size, color = '#1B1713', stroke = 2 }: P) => (
   <Svg {...base(size)}><Path d="M5 12.5l4.5 4.5L19 7" stroke={color} strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" /></Svg>
 );
+export const Target = ({ size, color = '#1B1713', stroke = 2 }: P) => (
+  <Svg {...base(size)}>
+    <Circle cx={12} cy={12} r={8.5} stroke={color} strokeWidth={stroke} />
+    <Circle cx={12} cy={12} r={4.6} stroke={color} strokeWidth={stroke} />
+    <Circle cx={12} cy={12} r={1.4} fill={color} />
+  </Svg>
+);
 export const Search = ({ size, color = '#7A7064', stroke = 1.8 }: P) => (
   <Svg {...base(size)}><Circle cx={11} cy={11} r={6.5} stroke={color} strokeWidth={stroke} /><Path d="M16 16l4 4" stroke={color} strokeWidth={stroke} strokeLinecap="round" /></Svg>
 );

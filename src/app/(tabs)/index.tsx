@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Book, Check, Star, Trophy } from '@/components/icons';
+import { CheckinCard } from '@/components/CheckinCard';
+import { Book, Check, Star, Target, Trophy } from '@/components/icons';
 import { TopBar } from '@/components/TopBar';
 import { Bar, Button, T, Tap } from '@/components/ui';
 import { PORTRAITS } from '@/data/images';
@@ -22,7 +23,7 @@ const ZIG = [0, -60, -86, -60, -20, -60, -86, -60];
 
 export default function Learn() {
   const ctx = useTrip();
-  const { seen } = useStore();
+  const { seen, practiced } = useStore();
   const [open, setOpen] = useState<string | null>(null);
 
   const units = useMemo(() => {
@@ -53,6 +54,8 @@ export default function Learn() {
           </View>
         </View>
 
+        <CheckinCard />
+
         {units.map((u, ui) => (
           <View key={u.cat} style={{ marginTop: 26 }}>
             <View style={[styles.unit, { backgroundColor: u.color, borderColor: shade(u.color) }]}>
@@ -66,7 +69,7 @@ export default function Learn() {
               </Tap>
             </View>
 
-            <View style={[styles.path, { minHeight: Math.max(186, u.scenes.length * 96 + 56) }]}>
+            <View style={[styles.path, { minHeight: Math.max(186, (u.scenes.length + 1) * 96 + 56) }]}>
               {u.scenes.map((s, i) => {
                 const isDone = seen.includes(s.id);
                 const isCur = s.id === current;
@@ -105,6 +108,12 @@ export default function Learn() {
                   </View>
                 );
               })}
+              <PracticeNode
+                tone={u.scenes.every((s) => seen.includes(s.id)) ? u.color : '#E5E5E5'}
+                done={u.scenes.every((s) => practiced.includes(s.id))}
+                off={ZIG[u.scenes.length % ZIG.length] * (ui % 2 === 0 ? 1 : -1)}
+                onPress={() => router.push({ pathname: '/practice', params: { unit: u.cat } })}
+              />
               <Image source={face(ui)} style={[styles.buddy, ui % 2 === 0 ? { right: 18 } : { left: 18 }]} />
             </View>
           </View>
@@ -117,10 +126,10 @@ export default function Learn() {
             </View>
           </View>
           <T v="h3" style={{ marginTop: 12 }}>{done === all.length ? 'All scenes done' : 'Finish every scene'}</T>
-          <T v="small" style={{ marginTop: 4, textAlign: 'center', paddingHorizontal: 40 }}>Then learn the phrases in Talk.</T>
+          <T v="small" style={{ marginTop: 4, textAlign: 'center', paddingHorizontal: 40 }}>Then test yourself on all of them.</T>
           <View style={{ flexDirection: 'row', gap: 10, marginTop: 16, paddingHorizontal: 22, alignSelf: 'stretch' }}>
+            <Button title="Practise" tone={color.blue} onPress={() => router.push('/practice')} style={{ flex: 1 }} />
             <Button title="Talk" tone={color.purple} onPress={() => router.push('/(tabs)/talk')} style={{ flex: 1 }} />
-            <Button title="Coach" tone={color.green} onPress={() => router.push('/(tabs)/coach')} style={{ flex: 1 }} />
           </View>
         </View>
       </ScrollView>
@@ -128,7 +137,25 @@ export default function Learn() {
   );
 }
 
+// The last stop on each unit: a short quiz about its scenes.
+function PracticeNode({ tone, done, off, onPress }: { tone: string; done: boolean; off: number; onPress: () => void }) {
+  const lit = tone !== '#E5E5E5';
+  return (
+    <View style={{ alignItems: 'center', width: '100%' }}>
+      <View style={{ transform: [{ translateX: off }], alignItems: 'center', marginTop: 16 }}>
+        <Tap haptic onPress={onPress} style={[styles.nodeLip, { backgroundColor: shade(done ? color.yellow : tone), borderRadius: 24 }]}>
+          <View style={[styles.node, { backgroundColor: done ? color.yellow : tone, borderRadius: 24 }]}>
+            <Target size={34} color={lit || done ? '#FFFFFF' : '#AFAFAF'} stroke={2.6} />
+          </View>
+        </Tap>
+        <T style={[styles.practiceT, { color: lit || done ? color.ink : color.faint }]}>Practice</T>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  practiceT: { fontFamily: font.heavy, fontSize: 13, marginTop: 6 },
   hello: { marginHorizontal: 16, marginTop: 16, borderRadius: radius.xl, padding: 20, borderBottomWidth: 6, borderWidth: 0 },
   helloSmall: { fontFamily: font.heavy, fontSize: 15, opacity: 0.85 },
   helloBig: { fontFamily: font.black, fontSize: 30, lineHeight: 35, marginTop: 2 },

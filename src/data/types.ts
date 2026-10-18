@@ -109,4 +109,14 @@ export type Trip = {
   days: number;
   purpose: Purpose;
   createdAt: number;
+  // Arrival date as YYYY-MM-DD. Older trips may not have one.
+  arrive?: string;
 };
+
+export type Mood = 1 | 2 | 3 | 4 | 5;
+export type Struggle = 'language' | 'people' | 'rules' | 'food' | 'home' | 'tired' | 'around';
+export type Checkin = { day: string; mood: Mood; hard: Struggle[]; at: number };
+
+// One multiple choice question per scene. If the scene has an avoid version,
+// wrong[0] is the mistake it shows.
+export type Quiz = { q: string; right: string; wrong: string[] };
