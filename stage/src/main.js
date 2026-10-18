@@ -75,8 +75,14 @@ function placeBubbles() {
     const w = b.el.offsetWidth, h = b.el.offsetHeight;
     let x = (_hp.x * 0.5 + 0.5) * W, y = (-_hp.y * 0.5 + 0.5) * H;
     x = Math.min(W - w / 2 - 8, Math.max(w / 2 + 8, x));
-    y = Math.max(h + 10, y);
-    for (const p of placed) if (Math.abs(p.x - x) < (p.w + w) / 2 && Math.abs(p.y - y) < h + 6) y = p.y - p.h - 8;
+    // y is the tail tip; the box top sits at y - h - 12 and must stay on screen.
+    const minY = h + 22;
+    y = Math.max(minY, y);
+    for (const p of placed) {
+      if (Math.abs(p.x - x) < (p.w + w) / 2 && Math.abs(p.y - y) < h + 6) {
+        y = p.y - p.h - 8 >= minY ? p.y - p.h - 8 : p.y + h + 8;
+      }
+    }
     placed.push({ x, y, w, h });
     b.el.style.transform = `translate(${x - w / 2}px, ${y - h - 12}px) scale(${b.on ? 1 : 1})`;
     if (!b.on) { b.el.style.opacity = '1'; b.on = true; }

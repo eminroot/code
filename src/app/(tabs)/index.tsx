@@ -66,7 +66,7 @@ export default function Learn() {
               </Tap>
             </View>
 
-            <View style={[styles.path, { minHeight: Math.max(150, u.scenes.length * 96 + 40) }]}>
+            <View style={[styles.path, { minHeight: Math.max(186, u.scenes.length * 96 + 56) }]}>
               {u.scenes.map((s, i) => {
                 const isDone = seen.includes(s.id);
                 const isCur = s.id === current;
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   unitTitle: { fontFamily: font.black, fontSize: 21, color: color.white, marginTop: 1 },
   unitSub: { fontFamily: font.bold, fontSize: 13.5, color: 'rgba(255,255,255,0.92)', marginTop: 2 },
   guideBtn: { width: 48, height: 48, borderRadius: 14, borderWidth: 2, alignItems: 'center', justifyContent: 'center', marginLeft: 10 },
-  path: { paddingTop: 40, paddingBottom: 10 },
+  path: { paddingTop: 56, paddingBottom: 10 },
   nodeLip: { width: 76, height: 72, borderRadius: 38 },
   node: { width: 76, height: 66, borderRadius: 38, alignItems: 'center', justifyContent: 'center' },
   ring: { position: 'absolute', bottom: -8, width: 96, height: 92, borderRadius: 48, borderWidth: 6, opacity: 0.6 },
@@ -148,5 +148,5 @@ const styles = StyleSheet.create({
   pop: { width: '86%', marginTop: 14, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, padding: 16 },
   popTitle: { fontFamily: font.heavy, fontSize: 18 },
   popSub: { fontFamily: font.bold, fontSize: 14, marginTop: 2, opacity: 0.95 },
-  buddy: { position: 'absolute', top: 30, width: 104, height: 130, borderRadius: 52, borderWidth: 4, borderColor: color.white, backgroundColor: color.blueSoft },
+  buddy: { position: 'absolute', top: 44, width: 104, height: 130, borderRadius: 52, borderWidth: 4, borderColor: color.white, backgroundColor: color.blueSoft },
 });
