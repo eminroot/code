@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { Actor } from './actor.js';
 import { GESTURES, smooth } from './gestures.js';
+import { buildSet } from './sets.js';
 
 const RN = typeof window.ReactNativeWebView !== 'undefined';
 const send = (msg) => {
@@ -237,6 +238,9 @@ let script = null;
 let clock = 0;
 let speed = 1;
 let paused = false;
+// Hold freezes the script but lets people keep breathing, for questions asked mid-scene.
+let hold = false;
+let setGroup = null;
 let lastBeat = -1;
 let camPreset = 'three';
 let camAnim = null;
@@ -306,6 +310,11 @@ async function loadScene(spec) {
   });
   const ids = Object.keys(actors);
   ids.forEach((id) => { actors[id].partner = ids.length > 1 ? actors[ids.find((x) => x !== id)] : null; });
+
+  if (setGroup) scene.remove(setGroup);
+  setGroup = spec.set ? buildSet(spec.set, spec.accent) : null;
+  if (setGroup) scene.add(setGroup);
+  floor.visible = !setGroup;
 
   for (const p of spec.props || []) {
     const mesh = p.kind === 'gift' ? giftMesh(p.color) : cardMesh();
@@ -462,7 +471,7 @@ function setCamera(preset, instant) {
 
 let last = performance.now();
 function tick(dt, silent) {
-  runScript(paused ? 0 : dt * speed);
+  runScript(paused || hold ? 0 : dt * speed);
   for (const id in actors) {
     const a = actors[id];
     a._lastHold = a.pose.hold || null;
@@ -511,6 +520,7 @@ function handle(msg) {
     case 'camera': setCamera(msg.preset, false); break;
     case 'speed': speed = msg.value; break;
     case 'pause': paused = !!msg.value; break;
+    case 'hold': hold = !!msg.value; break;
     case 'restart': clock = 0; lastBeat = -1; resetEvents(); break;
     case 'seek': clock = msg.t; lastBeat = -1; resetEvents(); break;
     case 'run': running = !!msg.value; last = performance.now(); break;

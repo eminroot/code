@@ -18,6 +18,8 @@ type Props = {
   camera?: string;
   speed?: number;
   paused?: boolean;
+  // Freeze the scene's script but keep people breathing.
+  hold?: boolean;
   active?: boolean;
   background?: string;
   style?: ViewStyle;
@@ -29,7 +31,7 @@ type Props = {
 };
 
 export const Stage = forwardRef<StageHandle, Props>(function Stage(
-  { scene, camera, speed = 1, paused = false, active = true, background, style, onBeat, onTime, onCycle, onLoaded, showLoader = true },
+  { scene, camera, speed = 1, paused = false, hold = false, active = true, background, style, onBeat, onTime, onCycle, onLoaded, showLoader = true },
   ref,
 ) {
   const focused = useIsFocused();
@@ -62,6 +64,7 @@ export const Stage = forwardRef<StageHandle, Props>(function Stage(
   useEffect(() => { if (ready && camera) send({ type: 'camera', preset: camera }); }, [ready, camera, send]);
   useEffect(() => { if (ready) send({ type: 'speed', value: speed }); }, [ready, speed, send]);
   useEffect(() => { if (ready) send({ type: 'pause', value: paused }); }, [ready, paused, send]);
+  useEffect(() => { if (ready) send({ type: 'hold', value: hold }); }, [ready, hold, send]);
   // Stop drawing when the screen is covered, so hidden stages cost nothing.
   useEffect(() => { if (ready) send({ type: 'run', value: active && focused }); }, [ready, active, focused, send]);
   useEffect(() => { if (ready && background) send({ type: 'bg', value: background }); }, [ready, background, send]);
